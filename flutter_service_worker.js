@@ -6,7 +6,7 @@ const RESOURCES = {
   "assets/AssetManifest.json": "f3087212073b8ba6e024a777c38dfc67",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/fonts/MaterialIcons-Regular.otf": "95db9098c58fd6db106f1116bae85a0b",
-"assets/NOTICES": "71dcc56248c96c00055f16e48580e448",
+"assets/NOTICES": "8bbb19982998ae0cdd6cb2affd033095",
 "assets/packages/core/assets/images/avatar_default.png": "6d7a8d509be59100ec749b9ea8ab81e7",
 "assets/packages/core/assets/images/coffee_paperclips_pencil_angled_bw_w1080.jpg": "9f499cf53bb008afe9f6bd89deba9c52",
 "assets/packages/core/assets/images/iphone_cactus_tea_overhead_bw_w1080.jpg": "319249e756f3a470d45841baea9d1132",
@@ -25,9 +25,9 @@ const RESOURCES = {
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "86aff1da3d982a53f4c1a1610393651d",
-"/": "86aff1da3d982a53f4c1a1610393651d",
-"main.dart.js": "100e29269bb40205a3abab97b9aab1c6",
+"index.html": "3a6d9a5251bb34241920c05d39976717",
+"/": "3a6d9a5251bb34241920c05d39976717",
+"main.dart.js": "a76df5784996d51cc6c3adfe71caa369",
 "manifest.json": "72502d9d3da5b36a182b4b750e595077",
 "version.json": "5d2cb7246cc278fd54a18e0d181fc762"
 };
