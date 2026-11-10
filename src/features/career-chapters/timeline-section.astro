@@ -1,0 +1,33 @@
+---
+import { getDictionary } from '../../i18n/dictionary';
+import type { Locale } from '../../shared/locale/locales';
+import { SECTION_IDS } from '../../shared/site/site-config';
+import Section from '../../shared/ui/section.astro';
+import TimelineNode from './components/timeline-node.astro';
+import { CAREER_ORDER, HERO_CAREER_ID, chapterHref } from './lib/career-ids';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { timeline, career } = getDictionary(locale);
+---
+
+<Section id={SECTION_IDS.timeline} labelledBy="timeline-title" atmosphere="timeline">
+  <h2 id="timeline-title" class="mb-2 font-display text-h2 font-bold">{timeline.title}</h2>
+  <p class="mb-12 max-w-[42ch] text-muted">{timeline.aside}</p>
+  <ol class="-mx-6 flex snap-x snap-mandatory scroll-px-6 overflow-x-auto px-6 pb-4 md:mx-0 md:grid md:grid-cols-5 md:overflow-visible md:px-0 md:pb-0">
+    {
+      CAREER_ORDER.map((id) => (
+        <TimelineNode
+          href={chapterHref(id)}
+          year={career.glance[id].year}
+          name={career.glance[id].name}
+          role={career.glance[id].role}
+          tag={id === HERO_CAREER_ID ? timeline.heroTag : undefined}
+        />
+      ))
+    }
+  </ol>
+</Section>

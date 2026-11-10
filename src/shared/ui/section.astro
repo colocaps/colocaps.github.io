@@ -1,0 +1,30 @@
+---
+import type { SectionId } from '../site/site-config';
+
+type Atmosphere = 'hero' | 'timeline' | 'chapter' | 'arch' | 'apps' | 'bio' | 'contact';
+
+interface Props {
+  id: SectionId | string;
+  labelledBy: string;
+  atmosphere: Atmosphere;
+  class?: string;
+}
+
+const { id, labelledBy, atmosphere, class: className } = Astro.props;
+
+const atmosphereClass: Record<Atmosphere, string> = {
+  hero: 'atmosphere-hero',
+  timeline: 'atmosphere-timeline',
+  chapter: 'atmosphere-chapter',
+  arch: 'atmosphere-arch',
+  apps: 'atmosphere-apps',
+  bio: 'atmosphere-bio',
+  contact: 'atmosphere-contact',
+};
+---
+
+<section id={id} aria-labelledby={labelledBy} class:list={['grain', atmosphereClass[atmosphere], className]}>
+  <div class="mx-auto w-full max-w-site px-6 py-16 md:px-12 md:py-24">
+    <slot />
+  </div>
+</section>

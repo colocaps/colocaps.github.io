@@ -1,0 +1,31 @@
+---
+type Tone = 'accent' | 'amber' | 'sky';
+
+interface Props {
+  index: string;
+  name: string;
+  kicker: string;
+  body: string;
+  tone: Tone;
+}
+
+const { index, name, kicker, body, tone } = Astro.props;
+
+const toneClass: Record<Tone, string> = {
+  accent: 'border-accent hover:from-accent/10',
+  amber: 'border-amber hover:from-amber/10',
+  sky: 'border-sky hover:from-sky/10',
+};
+---
+
+<article
+  class:list={[
+    'reveal flex flex-col border-t-2 bg-gradient-to-b from-mist/5 to-transparent px-6 pt-7 pb-6 transition duration-200 motion-safe:hover:-translate-y-1',
+    toneClass[tone],
+  ]}
+>
+  <p class="mb-4 font-display text-xs font-bold tracking-widest text-muted">{index} · {kicker}</p>
+  <h3 class="mb-3 font-display text-h3 font-bold">{name}</h3>
+  <p class="mb-6 leading-relaxed text-muted">{body}</p>
+  <div class="mt-auto"><slot /></div>
+</article>

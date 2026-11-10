@@ -1,0 +1,198 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/syne';
+@import '@fontsource-variable/plus-jakarta-sans';
+
+@theme {
+  --color-ink: #0b0f14;
+  --color-ink-2: #121820;
+  --color-mist: #eaf0f6;
+  --color-muted: #8b9aab;
+  --color-line: rgb(234 240 246 / 0.12);
+  --color-line-strong: rgb(234 240 246 / 0.28);
+  --color-accent: #3ee0b7;
+  --color-accent-hover: #63ebc7;
+  --color-accent-ink: #06241c;
+  --color-amber: #f0a35e;
+  --color-sky: #6ec8ff;
+  --color-ueno: #00c853;
+  --color-ueno-soft: #8dffb8;
+
+  --font-display: 'Syne Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --text-hero: clamp(3.25rem, 11vw, 5.5rem);
+  --text-hero--line-height: 0.92;
+  --text-hero--letter-spacing: -0.045em;
+  --text-h2: clamp(2.25rem, 6vw, 3.5rem);
+  --text-h2--line-height: 1;
+  --text-h2--letter-spacing: -0.04em;
+  --text-h3: 1.75rem;
+  --text-h3--line-height: 1.1;
+  --text-h3--letter-spacing: -0.03em;
+
+  --radius-bezel: 2.25rem;
+  --radius-bezel-sm: 1.75rem;
+  --radius-panel: 1.25rem;
+
+  --spacing-avatar: 17.5rem;
+  --spacing-nav: 4.5rem;
+
+  --container-site: 80rem;
+  --container-prose: 36rem;
+
+  --shadow-lift: 0 40px 80px rgb(0 0 0 / 0.45);
+  --shadow-phone: 0 30px 60px rgb(0 0 0 / 0.5);
+  --shadow-node: 0 0 0 6px rgb(62 224 183 / 0.2);
+  --shadow-avatar: 0 24px 60px rgb(0 0 0 / 0.45), 0 0 0 18px rgb(62 224 183 / 0.08);
+
+  --animate-glow: glow 4.5s ease-in-out infinite;
+  --animate-float: float 5.5s ease-in-out infinite;
+
+  @keyframes glow {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.85;
+    }
+    50% {
+      transform: scale(1.08);
+      opacity: 1;
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(6deg);
+    }
+    50% {
+      transform: translateY(-0.875rem) rotate(4deg);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-padding-top: var(--spacing-nav);
+    background-color: var(--color-ink);
+    color-scheme: dark;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-mist);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Atmosphere: ink + radial meshes + soft grain. Never a flat single color. */
+@utility grain {
+  position: relative;
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.3;
+    pointer-events: none;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  }
+}
+
+@utility atmosphere-hero {
+  background:
+    radial-gradient(ellipse 70% 55% at 78% 42%, color-mix(in oklab, var(--color-accent) 22%, transparent), transparent 55%),
+    radial-gradient(ellipse 50% 45% at 18% 78%, color-mix(in oklab, var(--color-amber) 12%, transparent), transparent 50%),
+    radial-gradient(ellipse 90% 80% at 50% -10%, rgb(80 120 180 / 0.18), transparent 55%),
+    linear-gradient(165deg, var(--color-ink-2) 0%, var(--color-ink) 55%, var(--color-ink) 100%);
+}
+
+@utility atmosphere-timeline {
+  background:
+    radial-gradient(ellipse 50% 40% at 80% 20%, color-mix(in oklab, var(--color-accent) 10%, transparent), transparent 50%),
+    linear-gradient(180deg, var(--color-ink), var(--color-ink-2) 50%, var(--color-ink));
+}
+
+@utility atmosphere-chapter {
+  background:
+    radial-gradient(ellipse 60% 50% at 82% 30%, color-mix(in oklab, var(--color-ueno) 26%, transparent), transparent 55%),
+    radial-gradient(ellipse 45% 40% at 20% 80%, color-mix(in oklab, var(--color-accent) 12%, transparent), transparent 50%),
+    linear-gradient(160deg, var(--color-ink-2), var(--color-ink) 60%);
+}
+
+@utility atmosphere-arch {
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 0%, color-mix(in oklab, var(--color-accent) 14%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--color-ink-2) 0%, var(--color-ink) 100%);
+}
+
+@utility atmosphere-apps {
+  background:
+    radial-gradient(ellipse 55% 45% at 15% 25%, color-mix(in oklab, var(--color-sky) 10%, transparent), transparent 55%),
+    radial-gradient(ellipse 50% 45% at 90% 85%, color-mix(in oklab, var(--color-accent) 10%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--color-ink), var(--color-ink-2));
+}
+
+@utility atmosphere-bio {
+  background:
+    radial-gradient(ellipse 45% 50% at 85% 30%, color-mix(in oklab, var(--color-amber) 9%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--color-ink-2), var(--color-ink));
+}
+
+@utility atmosphere-contact {
+  background:
+    radial-gradient(ellipse 55% 50% at 75% 50%, color-mix(in oklab, var(--color-amber) 12%, transparent), transparent 55%),
+    radial-gradient(ellipse 40% 40% at 15% 80%, color-mix(in oklab, var(--color-accent) 10%, transparent), transparent 50%),
+    linear-gradient(160deg, var(--color-ink-2), var(--color-ink));
+}
+
+@utility glow-accent {
+  background: radial-gradient(circle, color-mix(in oklab, var(--color-accent) 35%, transparent) 0%, transparent 68%);
+}
+
+/* Scroll-driven reveal where supported; static everywhere else. */
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

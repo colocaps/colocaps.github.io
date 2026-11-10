@@ -1,0 +1,20 @@
+import js from '@eslint/js';
+import astro from 'eslint-plugin-astro';
+import unicorn from 'eslint-plugin-unicorn';
+import { defineConfig } from 'eslint/config';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+
+export default defineConfig(
+  { ignores: ['dist/', '.astro/', 'node_modules/', 'playwright-report/', 'test-results/'] },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...astro.configs.recommended,
+  {
+    languageOptions: { globals: { ...globals.browser, ...globals.node } },
+    plugins: { unicorn },
+    rules: {
+      'unicorn/filename-case': ['error', { case: 'kebabCase' }],
+    },
+  },
+);
