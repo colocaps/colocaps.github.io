@@ -1,0 +1,37 @@
+---
+import type { Dictionary } from '../../../i18n/dictionary';
+import DiagramFrame from './diagram-frame.astro';
+
+interface Props {
+  diagram: Dictionary['architecture']['multitenant']['diagram'];
+}
+
+const { diagram } = Astro.props;
+const [personal, business] = diagram.apps;
+---
+
+<DiagramFrame label={diagram.label}>
+  <div aria-hidden="true" class="grid gap-2">
+    <p class="text-xs font-semibold tracking-wider text-muted uppercase">{diagram.before}</p>
+    <div class="grid grid-cols-2 gap-2">
+      {
+        diagram.apps.map((app) => (
+          <div class="rounded-xl border border-amber/40 px-3 py-2">
+            <p class="text-xs font-semibold">{app}</p>
+            <p class="text-xs text-muted">{diagram.microapps}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+  <div aria-hidden="true" class="grid gap-2">
+    <p class="text-xs font-semibold tracking-wider text-muted uppercase">{diagram.after}</p>
+    <div class="rounded-xl border border-amber bg-amber/10 p-3">
+      <p class="mb-2 text-xs font-bold text-amber">{personal} · {diagram.superapp}</p>
+      <div class="flex flex-wrap gap-2">
+        <span class="rounded-full border border-amber/40 px-3 py-1 text-xs">{personal}</span>
+        <span class="rounded-full border border-amber/40 px-3 py-1 text-xs">{business}</span>
+      </div>
+    </div>
+  </div>
+</DiagramFrame>

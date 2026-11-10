@@ -1,0 +1,24 @@
+---
+import { getDictionary } from '../../i18n/dictionary';
+import type { Locale } from '../../shared/locale/locales';
+import { SECTION_IDS } from '../../shared/site/site-config';
+import Eyebrow from '../../shared/ui/eyebrow.astro';
+import Section from '../../shared/ui/section.astro';
+import EarlyChapter from './components/early-chapter.astro';
+import IttiChapter from './components/itti-chapter.astro';
+import { EARLY_CAREER_IDS } from './lib/career-ids';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { career } = getDictionary(locale);
+---
+
+<Section id={SECTION_IDS.career} labelledBy="career-title" atmosphere="bio">
+  <div class="mb-3"><Eyebrow>{career.eyebrow}</Eyebrow></div>
+  <h2 id="career-title" class="mb-10 max-w-[18ch] font-display text-h2 font-bold">{career.title}</h2>
+  {EARLY_CAREER_IDS.map((id) => <EarlyChapter id={id} chapter={career.early[id]} />)}
+</Section>
+<IttiChapter locale={locale} />

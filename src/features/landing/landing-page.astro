@@ -1,0 +1,27 @@
+---
+import type { Locale } from '../../shared/locale/locales';
+import AppsSection from '../apps-showcase/apps-section.astro';
+import BioSection from '../bio/bio-section.astro';
+import CareerSection from '../career-chapters/career-section.astro';
+import TimelineSection from '../career-chapters/timeline-section.astro';
+import ContactSection from '../contact/contact-section.astro';
+import ArchitectureSection from '../hero-architecture/architecture-section.astro';
+import HeroSection from '../hero/hero-section.astro';
+import SiteLayout from '../site-chrome/site-layout.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<SiteLayout locale={locale}>
+  <HeroSection locale={locale} />
+  <TimelineSection locale={locale} />
+  <CareerSection locale={locale} />
+  <ArchitectureSection locale={locale} />
+  <AppsSection locale={locale} />
+  <BioSection locale={locale} />
+  <ContactSection locale={locale} />
+</SiteLayout>

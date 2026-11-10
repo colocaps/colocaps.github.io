@@ -1,0 +1,41 @@
+---
+import { getImage } from 'astro:assets';
+import { getDictionary } from '../../i18n/dictionary';
+import type { Locale } from '../../shared/locale/locales';
+import { avatar } from '../../shared/media/avatar';
+import { cvHref, mailtoHref, siteConfig } from '../../shared/site/site-config';
+import Button from '../../shared/ui/button.astro';
+import Eyebrow from '../../shared/ui/eyebrow.astro';
+import Section from '../../shared/ui/section.astro';
+import { Avatar3D } from './components/avatar-3d';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { hero } = getDictionary(locale);
+const portrait = await getImage({ src: avatar, width: 768, height: 768, format: 'webp', fit: 'cover', position: 'top' });
+---
+
+<Section id="hero" labelledBy="hero-title" atmosphere="hero" class="lg:min-h-[calc(100svh-var(--spacing-nav))]">
+  <div class="grid items-center gap-12 lg:min-h-[calc(100svh-var(--spacing-nav)-12rem)] lg:grid-cols-[1.05fr_0.95fr]">
+    <div>
+      <div class="mb-6"><Eyebrow>{hero.kicker}</Eyebrow></div>
+      <h1 id="hero-title" class="mb-6 max-w-[10ch] font-display text-hero font-extrabold">{siteConfig.name}</h1>
+      <p class="mb-4 text-2xl font-semibold">{hero.role}</p>
+      <p class="mb-10 max-w-[34ch] text-lg leading-relaxed text-muted">{hero.sub}</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <Button href={mailtoHref}>{hero.ctaEmail}</Button>
+        <Button href={cvHref[locale]} variant="ghost" download>{hero.ctaCv}</Button>
+      </div>
+    </div>
+
+    <div data-avatar-stage class="relative flex items-center justify-center py-8 lg:h-full">
+      <div aria-hidden="true" class="absolute size-80 animate-glow rounded-full glow-accent blur-sm"></div>
+      <div class="relative">
+        <Avatar3D client:load textureUrl={portrait.src} alt={hero.avatarAlt} />
+      </div>
+    </div>
+  </div>
+</Section>

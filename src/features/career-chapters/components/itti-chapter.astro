@@ -1,0 +1,65 @@
+---
+import { getDictionary } from '../../../i18n/dictionary';
+import type { Locale } from '../../../shared/locale/locales';
+import { resolveShot } from '../../../shared/media/resolve-shot';
+import Chip from '../../../shared/ui/chip.astro';
+import Eyebrow from '../../../shared/ui/eyebrow.astro';
+import { PhoneScreen } from '../../../shared/ui/phone-screen';
+import Section from '../../../shared/ui/section.astro';
+import { HERO_CAREER_ID, chapterId } from '../lib/career-ids';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { career } = getDictionary(locale);
+const chapter = career.itti;
+const [uenoBank, uenoEmpresas] = await Promise.all([resolveShot('ueno-bank'), resolveShot('ueno-empresas')]);
+---
+
+<Section id={chapterId(HERO_CAREER_ID)} labelledBy="itti-title" atmosphere="chapter">
+  <div class="grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+    <div class="reveal">
+      <Eyebrow>{chapter.eyebrow}</Eyebrow>
+      <p class="mt-4 mb-2 text-xs font-bold tracking-wider text-muted uppercase">{chapter.period}</p>
+      <h3 id="itti-title" class="mb-4 max-w-[12ch] font-display text-h2 font-extrabold">{chapter.title}</h3>
+      <p class="mb-7 max-w-[42ch] text-lg leading-relaxed text-muted">{chapter.lede}</p>
+      <ul class="mb-7 flex flex-wrap gap-2">
+        {chapter.tags.map((tag) => <li><Chip tone="ueno">{tag}</Chip></li>)}
+      </ul>
+      <dl class="max-w-lg">
+        {
+          chapter.proof.map((row) => (
+            <div class="grid grid-cols-[6rem_1fr] items-baseline gap-3 border-t border-line py-3 text-sm last:border-b">
+              <dt class="text-xs font-semibold tracking-wider text-muted uppercase">{row.label}</dt>
+              <dd class="font-medium">{row.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+    <div class="flex items-center justify-center gap-4">
+      <div class="w-40 sm:w-52 lg:w-60">
+        <PhoneScreen
+          src={uenoBank.src}
+          imageWidth={uenoBank.width}
+          imageHeight={uenoBank.height}
+          frames={uenoBank.frames}
+          frameWidth={uenoBank.frameWidth}
+          alt={chapter.phones.uenoBank}
+        />
+      </div>
+      <div class="w-36 translate-y-10 rotate-6 opacity-90 sm:w-44 lg:w-52">
+        <PhoneScreen
+          src={uenoEmpresas.src}
+          imageWidth={uenoEmpresas.width}
+          imageHeight={uenoEmpresas.height}
+          frames={uenoEmpresas.frames}
+          frameWidth={uenoEmpresas.frameWidth}
+          alt={chapter.phones.uenoEmpresas}
+        />
+      </div>
+    </div>
+  </div>
+</Section>

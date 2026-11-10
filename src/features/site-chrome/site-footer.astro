@@ -1,0 +1,33 @@
+---
+import { getDictionary } from '../../i18n/dictionary';
+import type { Locale } from '../../shared/locale/locales';
+import { siteConfig } from '../../shared/site/site-config';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { footer } = getDictionary(locale).chrome;
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line bg-ink">
+  <div
+    class="mx-auto flex w-full max-w-site flex-col gap-4 px-6 py-8 text-sm text-muted md:flex-row md:items-center md:justify-between md:px-12"
+  >
+    <p>© {year} {siteConfig.name} · {footer.location}</p>
+    <ul class="flex items-center gap-6 font-medium">
+      <li>
+        <a href={siteConfig.linkedin} rel="me noopener" target="_blank" class="transition-colors hover:text-accent">
+          {footer.linkedin}
+        </a>
+      </li>
+      <li>
+        <a href={siteConfig.github} rel="me noopener" target="_blank" class="transition-colors hover:text-accent">
+          {footer.github}
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>

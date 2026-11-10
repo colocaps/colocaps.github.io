@@ -1,0 +1,26 @@
+---
+import type { Dictionary } from '../../../i18n/dictionary';
+import DiagramFrame from './diagram-frame.astro';
+
+interface Props {
+  diagram: Dictionary['architecture']['fpa']['diagram'];
+}
+
+const { diagram } = Astro.props;
+---
+
+<DiagramFrame label={diagram.label}>
+  <ol aria-hidden="true" class="grid gap-2">
+    {
+      diagram.steps.map((step, position) => (
+        <li class="flex items-center gap-3 text-xs font-semibold">
+          <span class="grid size-6 place-items-center rounded-full border border-sky/50 text-sky">{position + 1}</span>
+          {step}
+        </li>
+      ))
+    }
+  </ol>
+  <ul aria-hidden="true" class="flex flex-wrap gap-2">
+    {diagram.filters.map((filter) => <li class="rounded-full border border-sky/40 bg-sky/10 px-3 py-1 text-xs text-sky">{filter}</li>)}
+  </ul>
+</DiagramFrame>

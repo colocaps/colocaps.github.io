@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import { getDictionary } from '../../i18n/dictionary';
+import type { Locale } from '../../shared/locale/locales';
+import { avatar } from '../../shared/media/avatar';
+import { SECTION_IDS, cvHref, mailtoHref, siteConfig } from '../../shared/site/site-config';
+import { AvatarFrame } from '../../shared/ui/avatar-frame';
+import Button from '../../shared/ui/button.astro';
+import Eyebrow from '../../shared/ui/eyebrow.astro';
+import Section from '../../shared/ui/section.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { contact, chrome } = getDictionary(locale);
+---
+
+<Section id={SECTION_IDS.contact} labelledBy="contact-title" atmosphere="contact">
+  <div class="grid items-center gap-12 lg:min-h-[28rem] lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+    <div class="reveal">
+      <div class="mb-3"><Eyebrow>{contact.eyebrow}</Eyebrow></div>
+      <h2 id="contact-title" class="mb-4 max-w-[12ch] font-display text-h2 font-extrabold">{contact.title}</h2>
+      <p class="mb-8 max-w-[34ch] text-lg leading-relaxed text-muted">{contact.closer}</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <Button href={mailtoHref}>{contact.ctaEmail}</Button>
+        <Button href={cvHref[locale]} variant="ghost" download>{contact.ctaCv}</Button>
+      </div>
+      <p class="mt-6 text-sm text-muted">{siteConfig.email} · {chrome.footer.location}</p>
+    </div>
+    <div class="lg:justify-self-end">
+      <AvatarFrame size="md">
+        <Image src={avatar} alt={contact.avatarAlt} width={448} height={448} fit="cover" position="top" loading="lazy" />
+      </AvatarFrame>
+    </div>
+  </div>
+</Section>

@@ -1,0 +1,16 @@
+---
+interface Props {
+  tone?: 'accent' | 'ueno';
+}
+
+const { tone = 'accent' } = Astro.props;
+---
+
+<span
+  class:list={[
+    'rounded-full border px-3.5 py-2 text-xs font-semibold',
+    tone === 'accent' ? 'border-accent/35 bg-accent/10 text-accent' : 'border-ueno/35 bg-ueno/10 text-ueno-soft',
+  ]}
+>
+  <slot />
+</span>

@@ -1,0 +1,40 @@
+---
+import { getDictionary } from '../../i18n/dictionary';
+import type { Locale } from '../../shared/locale/locales';
+import { SECTION_IDS } from '../../shared/site/site-config';
+import Eyebrow from '../../shared/ui/eyebrow.astro';
+import Section from '../../shared/ui/section.astro';
+import ArchColumn from './components/arch-column.astro';
+import FluxDiagram from './components/flux-diagram.astro';
+import FpaDiagram from './components/fpa-diagram.astro';
+import MultitenantDiagram from './components/multitenant-diagram.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { architecture } = getDictionary(locale);
+const { flux, multitenant, fpa } = architecture;
+---
+
+<Section id={SECTION_IDS.architecture} labelledBy="architecture-title" atmosphere="arch">
+  <div class="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+    <div>
+      <div class="mb-3"><Eyebrow>{architecture.eyebrow}</Eyebrow></div>
+      <h2 id="architecture-title" class="max-w-[16ch] font-display text-h2 font-bold">{architecture.title}</h2>
+    </div>
+    <p class="max-w-[32ch] leading-relaxed text-muted">{architecture.aside}</p>
+  </div>
+  <div class="grid gap-5 lg:grid-cols-3">
+    <ArchColumn index={flux.index} name={flux.name} kicker={flux.kicker} body={flux.body} tone="accent">
+      <FluxDiagram diagram={flux.diagram} />
+    </ArchColumn>
+    <ArchColumn index={multitenant.index} name={multitenant.name} kicker={multitenant.kicker} body={multitenant.body} tone="amber">
+      <MultitenantDiagram diagram={multitenant.diagram} />
+    </ArchColumn>
+    <ArchColumn index={fpa.index} name={fpa.name} kicker={fpa.kicker} body={fpa.body} tone="sky">
+      <FpaDiagram diagram={fpa.diagram} />
+    </ArchColumn>
+  </div>
+</Section>

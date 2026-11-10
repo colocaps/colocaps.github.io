@@ -1,0 +1,38 @@
+---
+import '../styles/global.css';
+import { DEFAULT_LOCALE, LOCALES, localePath } from '../shared/locale/locales';
+import { siteConfig } from '../shared/site/site-config';
+---
+
+<!doctype html>
+<html lang={DEFAULT_LOCALE}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{siteConfig.name}</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={new URL(localePath(DEFAULT_LOCALE), siteConfig.url)} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <noscript><meta http-equiv="refresh" content={`0; url=${localePath(DEFAULT_LOCALE)}`} /></noscript>
+  </head>
+  <body class="grid min-h-svh place-items-center">
+    <ul class="flex gap-4 text-sm font-semibold">
+      {LOCALES.map((locale) => <li><a href={localePath(locale)} class="text-accent hover:underline">{locale.toUpperCase()}</a></li>)}
+    </ul>
+    <script>
+      import { LOCALE_STORAGE_KEY, localePath } from '../shared/locale/locales';
+      import { resolveLocale } from '../shared/locale/resolve-locale';
+
+      function storedLocale(): string | null {
+        try {
+          return localStorage.getItem(LOCALE_STORAGE_KEY);
+        } catch {
+          return null;
+        }
+      }
+
+      const locale = resolveLocale({ stored: storedLocale(), languages: navigator.languages });
+      location.replace(localePath(locale, location.hash));
+    </script>
+  </body>
+</html>
