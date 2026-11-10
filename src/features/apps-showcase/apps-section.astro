@@ -5,8 +5,8 @@ import { resolveShot } from '../../shared/media/resolve-shot';
 import { SECTION_IDS } from '../../shared/site/site-config';
 import Eyebrow from '../../shared/ui/eyebrow.astro';
 import Section from '../../shared/ui/section.astro';
-import { Phone3D } from './components/phone-3d';
 import type { ShowcaseApp } from './components/showcase-app';
+import { ScrollPhoneShowcase } from './components/scroll-phone-showcase';
 import { APP_ORDER, storeHref } from './lib/apps';
 
 interface Props {
@@ -22,18 +22,17 @@ const showcaseApps: ShowcaseApp[] = await Promise.all(
 ---
 
 <Section id={SECTION_IDS.apps} labelledBy="apps-title" atmosphere="apps">
-  <div class="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+  <div class="mb-4 flex flex-col gap-6 md:mb-2 md:flex-row md:items-end md:justify-between">
     <div>
       <div class="mb-3"><Eyebrow>{apps.eyebrow}</Eyebrow></div>
       <h2 id="apps-title" class="max-w-[16ch] font-display text-h2 font-bold">{apps.title}</h2>
     </div>
     <p class="max-w-[34ch] leading-relaxed text-muted">{apps.aside}</p>
   </div>
-  <Phone3D
+  <ScrollPhoneShowcase
     client:visible
     apps={showcaseApps}
     storeLabel={apps.storeLabel}
     interactionHint={apps.interactionHint}
-    dragHint={apps.dragHint}
   />
 </Section>

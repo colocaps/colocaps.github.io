@@ -52,13 +52,14 @@ test.describe('landing @smoke', () => {
     expect(await page.evaluate(() => localStorage.getItem('locale'))).toBe('en');
   });
 
-  test('the apps row lists the five apps and their store links', async ({ page }) => {
+  test('the apps showcase lists the five apps and a store link', async ({ page }) => {
     await page.goto('/en/');
     const apps = page.locator('#apps');
     for (const name of ['ueno bank', 'ueno empresas', 'Merkao', 'Vizago Pay', 'Siglo 21']) {
-      await expect(apps.getByRole('heading', { name })).toHaveCount(1);
+      await expect(apps.getByRole('button', { name })).toHaveCount(1);
     }
-    await expect(apps.getByRole('link', { name: /View on the App Store/ })).toHaveCount(4);
+    await expect(apps.getByRole('heading', { name: 'ueno bank' })).toBeVisible();
+    await expect(apps.getByRole('link', { name: /View on the App Store/ })).toHaveCount(1);
   });
 
   test('the page never scrolls sideways', async ({ page }) => {
