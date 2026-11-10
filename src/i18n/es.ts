@@ -41,7 +41,7 @@ export const es: Dictionary = {
   },
   career: {
     eyebrow: 'Trayectoria',
-    title: 'Capítulos cortos, uno largo.',
+    title: 'Cómo llegué hasta acá.',
     glance: {
       je: { year: '2021', name: 'J&E', role: 'Escritorio y procesos' },
       clarika: { year: '2022', name: 'Clarika', role: 'Flutter · retail' },

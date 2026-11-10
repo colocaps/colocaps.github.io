@@ -13,6 +13,9 @@ interface ScrollPhoneShowcaseProps {
 
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 const PANEL_VH = 100;
+/** iPhone 16 logical points — reads as a real handset on most screens. */
+const IPHONE_WIDTH_PX = 393;
+const IPHONE_HEIGHT_PX = 852;
 
 function PhoneCanvas({
   shot,
@@ -25,14 +28,14 @@ function PhoneCanvas({
 }) {
   return (
     <Canvas
-      className="h-[min(62vh,520px)] w-full max-w-md"
-      dpr={[1, 1.75]}
-      camera={{ position: [0, 0, 5.2], fov: 32 }}
+      className="h-full w-full"
+      dpr={[1, 2]}
+      camera={{ position: [0, 0, 3.55], fov: 28 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
     >
-      <ambientLight intensity={0.7} />
-      <spotLight position={[4, 6, 4]} angle={0.4} penumbra={0.7} intensity={2} castShadow />
-      <pointLight position={[-3, -2, 2]} intensity={0.7} color="#3ee0b7" />
+      <ambientLight intensity={0.75} />
+      <spotLight position={[3.5, 5, 4]} angle={0.4} penumbra={0.7} intensity={2.1} castShadow />
+      <pointLight position={[-2.5, -1.5, 2]} intensity={0.75} color="#3ee0b7" />
       <Suspense fallback={null}>
         <IphoneMesh
           key={shot.src}
@@ -45,7 +48,7 @@ function PhoneCanvas({
           autoRotate={autoRotate}
           spinBoost={spinBoost}
         />
-        <ContactShadows position={[0, -1.55, 0]} opacity={0.4} scale={8} blur={2.4} far={4} />
+        <ContactShadows position={[0, -1.45, 0]} opacity={0.45} scale={7} blur={2.2} far={3.5} />
       </Suspense>
     </Canvas>
   );
@@ -113,36 +116,45 @@ export function ScrollPhoneShowcase({ apps, storeLabel, interactionHint }: Scrol
       className="relative -mx-6 md:-mx-12"
       style={{ height: `${apps.length * PANEL_VH}vh` }}
     >
-      <div className="sticky top-0 flex h-svh flex-col items-center justify-center px-6">
-        <div className="flex w-full max-w-3xl flex-col items-center">
-          <PhoneCanvas
-            shot={{ ...active.shot, frameIndex: 0 }}
-            autoRotate={!reducedMotion}
-            spinBoost={spinBoost}
-          />
+      <div className="sticky top-0 flex h-svh flex-col items-center justify-center px-4 sm:px-6">
+        <div className="relative flex h-full w-full max-w-5xl flex-col items-center justify-center py-4">
+          <div
+            className="relative shrink-0"
+            style={{
+              width: `min(92vw, ${IPHONE_WIDTH_PX}px)`,
+              height: `min(78svh, ${IPHONE_HEIGHT_PX}px)`,
+              aspectRatio: `${IPHONE_WIDTH_PX} / ${IPHONE_HEIGHT_PX}`,
+            }}
+          >
+            <PhoneCanvas
+              shot={{ ...active.shot, frameIndex: 0 }}
+              autoRotate={!reducedMotion}
+              spinBoost={spinBoost}
+            />
+          </div>
 
           <div
             key={active.id}
-            className="mt-6 max-w-md text-center motion-safe:animate-[fade-rise_420ms_ease-out]"
+            className="mt-3 w-full max-w-md px-2 text-center motion-safe:animate-[fade-rise_420ms_ease-out] sm:mt-4"
           >
-            <p className="mb-2 text-xs font-semibold tracking-[0.18em] text-accent uppercase">
+            <p className="mb-1 text-xs font-semibold tracking-[0.18em] text-accent uppercase">
               {activeIndex + 1} / {apps.length}
             </p>
-            <h3 className="font-display text-3xl font-bold tracking-tight">{active.name}</h3>
-            <p className="mt-3 text-base leading-relaxed text-muted">{active.blurb}</p>
+            <h3 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">{active.name}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted sm:text-base">{active.blurb}</p>
             {active.storeHref && (
               <a
                 href={active.storeHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-accent underline-offset-4 hover:underline"
+                className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-accent underline-offset-4 hover:underline"
               >
                 {storeLabel} ↗
               </a>
             )}
           </div>
 
-          <ol className="mt-8 flex flex-wrap items-center justify-center gap-2" aria-label={interactionHint}>
+          <ol className="mt-4 flex max-w-xl flex-wrap items-center justify-center gap-2" aria-label={interactionHint}>
             {apps.map((app, index) => {
               const selected = index === activeIndex;
               return (
@@ -165,7 +177,7 @@ export function ScrollPhoneShowcase({ apps, storeLabel, interactionHint }: Scrol
             })}
           </ol>
 
-          <p className="mt-4 text-center text-xs text-muted">{interactionHint}</p>
+          <p className="mt-2 text-center text-xs text-muted">{interactionHint}</p>
         </div>
       </div>
     </div>
