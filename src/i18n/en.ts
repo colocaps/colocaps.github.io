@@ -41,7 +41,7 @@ export const en: Dictionary = {
   },
   career: {
     eyebrow: 'Career',
-    title: 'Short chapters, one long one.',
+    title: 'How I got here.',
     glance: {
       je: { year: '2021', name: 'J&E', role: 'Desktop & business processes' },
       clarika: { year: '2022', name: 'Clarika', role: 'Flutter · retail' },
