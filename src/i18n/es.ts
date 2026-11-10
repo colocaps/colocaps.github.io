@@ -150,8 +150,8 @@ export const es: Dictionary = {
     eyebrow: 'Apps',
     title: 'Apps que podés abrir hoy.',
     aside: 'Productos en los que trabajé, con links a las tiendas cuando siguen publicados.',
-    interactionHint: 'Elegí una app a la derecha. El teléfono cambia de pantalla solo; arrastralo para girarlo.',
-    dragHint: 'Arrastrá el teléfono para girarlo en 3D',
+    interactionHint: 'Scrolleá: el teléfono se queda en el centro y cada app aparece de a una.',
+    dragHint: 'El teléfono gira mientras scrolleás',
     storeLabel: 'Ver en App Store',
     items: {
       'ueno-bank': {
