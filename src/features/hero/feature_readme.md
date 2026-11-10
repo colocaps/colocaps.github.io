@@ -6,9 +6,10 @@ First screen of each locale landing: kicker, brand (`h1`), one-line role, sub, t
 ## Exposed interface
 
 - `hero-section.astro` — `<HeroSection locale>`.
-- `components/avatar-3d.tsx` — React island (`client:load`). On desktop with a fine pointer and
-  without `prefers-reduced-motion`, mounts a R3F canvas: the portrait turns toward the pointer
-  (yaw/pitch) with a tracking key light. Elsewhere it falls back to a static circular photo.
+- `components/avatar-3d.tsx` — React island (`client:load`). Mounts a R3F canvas on any
+  viewport with WebGL: the portrait follows pointer/touch while interacting and does a gentle
+  idle sway otherwise so the 3D read is obvious on phones. Falls back to a static circular photo
+  only when WebGL is unavailable.
 
 ## Data flow
 

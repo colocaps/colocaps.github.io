@@ -4,9 +4,7 @@ import { AvatarFrame } from '../../../shared/ui/avatar-frame';
 import { pointerToUnit, type UnitPointer } from '../lib/gaze';
 import { AvatarHead } from './avatar-head';
 
-const DESKTOP_POINTER = '(pointer: fine)';
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
-const DESKTOP_WIDTH = '(min-width: 64em)';
 
 interface Avatar3DProps {
   textureUrl: string;
@@ -24,39 +22,54 @@ function StaticAvatar({ textureUrl, alt }: Avatar3DProps) {
 function Scene({
   textureUrl,
   pointer,
+  interacting,
   reducedMotion,
 }: {
   textureUrl: string;
   pointer: React.RefObject<UnitPointer>;
+  interacting: React.RefObject<boolean>;
   reducedMotion: boolean;
 }) {
   return (
     <Canvas
-      className="size-full"
+      className="size-full touch-none"
       dpr={[1, 1.75]}
       camera={{ position: [0, 0, 3.1], fov: 35 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
     >
       <Suspense fallback={null}>
-        <AvatarHead textureUrl={textureUrl} pointer={pointer} reducedMotion={reducedMotion} />
+        <AvatarHead
+          textureUrl={textureUrl}
+          pointer={pointer}
+          interacting={interacting}
+          reducedMotion={reducedMotion}
+        />
       </Suspense>
     </Canvas>
   );
 }
 
-/** Desktop WebGL portrait that looks toward the pointer; static circular photo elsewhere. */
+function canCreateWebGl(): boolean {
+  try {
+    const canvas = document.createElement('canvas');
+    return Boolean(canvas.getContext('webgl2') || canvas.getContext('webgl'));
+  } catch {
+    return false;
+  }
+}
+
+/** WebGL portrait on every viewport: follows pointer/touch, idle sway when resting. */
 export function Avatar3D({ textureUrl, alt }: Avatar3DProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const pointer = useRef<UnitPointer>({ x: 0, y: 0 });
-  const [mode, setMode] = useState<'static' | '3d'>('static');
+  const interacting = useRef(false);
+  const [mode, setMode] = useState<'pending' | '3d' | 'static'>('pending');
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
-    const fine = window.matchMedia(DESKTOP_POINTER).matches;
-    const wide = window.matchMedia(DESKTOP_WIDTH).matches;
     const reduce = window.matchMedia(REDUCED_MOTION).matches;
     setReducedMotion(reduce);
-    setMode(fine && wide && !reduce ? '3d' : 'static');
+    setMode(canCreateWebGl() ? '3d' : 'static');
   }, []);
 
   useEffect(() => {
@@ -64,22 +77,30 @@ export function Avatar3D({ textureUrl, alt }: Avatar3DProps) {
     const stage = stageRef.current;
     if (!stage) return;
 
-    const move = (event: PointerEvent) => {
+    const setFromEvent = (event: PointerEvent) => {
       pointer.current = pointerToUnit({ x: event.clientX, y: event.clientY }, stage.getBoundingClientRect());
+      interacting.current = true;
     };
-    const rest = () => {
+    const end = () => {
+      interacting.current = false;
       pointer.current = { x: 0, y: 0 };
     };
 
-    stage.addEventListener('pointermove', move);
-    stage.addEventListener('pointerleave', rest);
+    stage.addEventListener('pointerdown', setFromEvent);
+    stage.addEventListener('pointermove', setFromEvent);
+    stage.addEventListener('pointerup', end);
+    stage.addEventListener('pointercancel', end);
+    stage.addEventListener('pointerleave', end);
     return () => {
-      stage.removeEventListener('pointermove', move);
-      stage.removeEventListener('pointerleave', rest);
+      stage.removeEventListener('pointerdown', setFromEvent);
+      stage.removeEventListener('pointermove', setFromEvent);
+      stage.removeEventListener('pointerup', end);
+      stage.removeEventListener('pointercancel', end);
+      stage.removeEventListener('pointerleave', end);
     };
   }, [mode]);
 
-  if (mode === 'static') {
+  if (mode !== '3d') {
     return <StaticAvatar textureUrl={textureUrl} alt={alt} />;
   }
 
@@ -90,7 +111,12 @@ export function Avatar3D({ textureUrl, alt }: Avatar3DProps) {
       aria-label={alt}
       className="size-56 sm:size-avatar overflow-hidden rounded-full border-3 border-mist/15 shadow-avatar bg-ink-2"
     >
-      <Scene textureUrl={textureUrl} pointer={pointer} reducedMotion={reducedMotion} />
+      <Scene
+        textureUrl={textureUrl}
+        pointer={pointer}
+        interacting={interacting}
+        reducedMotion={reducedMotion}
+      />
     </div>
   );
 }

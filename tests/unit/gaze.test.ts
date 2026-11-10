@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { gazeFromPointer, lerp, pointerToUnit } from '../../src/features/hero/lib/gaze';
+import { gazeFromPointer, idleGaze, lerp, pointerToUnit } from '../../src/features/hero/lib/gaze';
 
 describe('gaze', () => {
   it('maps the stage centre to the origin and clamps edges', () => {
@@ -14,6 +14,11 @@ describe('gaze', () => {
     const rest = gazeFromPointer({ x: 0, y: 0 });
     expect(rest.yaw).toBe(0);
     expect(Object.is(rest.pitch, -0) || rest.pitch === 0).toBe(true);
+  });
+
+  it('sways gently while idle', () => {
+    expect(idleGaze(0).yaw).toBe(0);
+    expect(idleGaze(Math.PI / 2).yaw).not.toBe(0);
   });
 
   it('lerps toward the target', () => {
