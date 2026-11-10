@@ -2,19 +2,20 @@ import { useTexture } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
-import { gazeFromPointer, lerp, type UnitPointer } from '../lib/gaze';
+import { gazeFromPointer, idleGaze, lerp, type UnitPointer } from '../lib/gaze';
 
 interface AvatarHeadProps {
   textureUrl: string;
   pointer: React.RefObject<UnitPointer>;
+  interacting: React.RefObject<boolean>;
   reducedMotion: boolean;
 }
 
 /**
- * Photo mapped on a 3D disc. The whole head turns toward the pointer so the gaze
- * reads as looking at you; a key light tracks the same pointer for moving catchlights.
+ * Photo mapped on a 3D disc. Follows the pointer when interacting; otherwise
+ * a gentle idle sway so the 3D effect is obvious on phones too.
  */
-export function AvatarHead({ textureUrl, pointer, reducedMotion }: AvatarHeadProps) {
+export function AvatarHead({ textureUrl, pointer, interacting, reducedMotion }: AvatarHeadProps) {
   const group = useRef<THREE.Group>(null);
   const keyLight = useRef<THREE.SpotLight>(null);
   const texture = useTexture(textureUrl);
@@ -33,9 +34,10 @@ export function AvatarHead({ textureUrl, pointer, reducedMotion }: AvatarHeadPro
       return;
     }
 
-    const { yaw, pitch } = gazeFromPointer(pointer.current);
-    group.current.rotation.y = lerp(group.current.rotation.y, yaw, 0.14);
-    group.current.rotation.x = lerp(group.current.rotation.x, pitch, 0.14);
+    const unit = pointer.current ?? { x: 0, y: 0 };
+    const gaze = interacting.current ? gazeFromPointer(unit) : idleGaze(state.clock.elapsedTime);
+    group.current.rotation.y = lerp(group.current.rotation.y, gaze.yaw, 0.14);
+    group.current.rotation.x = lerp(group.current.rotation.x, gaze.pitch, 0.14);
     group.current.position.y = lerp(
       group.current.position.y,
       Math.sin(state.clock.elapsedTime * 0.85) * 0.045,
@@ -43,12 +45,14 @@ export function AvatarHead({ textureUrl, pointer, reducedMotion }: AvatarHeadPro
     );
 
     if (keyLight.current) {
-      keyLight.current.position.x = lerp(keyLight.current.position.x, pointer.current.x * 2.2, 0.12);
-      keyLight.current.position.y = lerp(keyLight.current.position.y, 1.2 - pointer.current.y * 1.2, 0.12);
+      const lightX = interacting.current ? unit.x * 2.2 : Math.sin(state.clock.elapsedTime * 0.7) * 1.4;
+      const lightY = interacting.current ? 1.2 - unit.y * 1.2 : 1.2 + Math.cos(state.clock.elapsedTime * 0.45) * 0.4;
+      keyLight.current.position.x = lerp(keyLight.current.position.x, lightX, 0.12);
+      keyLight.current.position.y = lerp(keyLight.current.position.y, lightY, 0.12);
     }
   });
 
-  const scale = Math.min(viewport.width, viewport.height) * 0.4;
+  const scale = Math.min(viewport.width, viewport.height) * 0.42;
 
   return (
     <>
