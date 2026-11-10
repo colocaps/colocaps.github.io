@@ -2,6 +2,7 @@ import { useTexture } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
+import { lerp, restTilt, tiltFromPointer, type UnitPointer } from '../lib/phone-tilt';
 
 export interface PhoneScreenShot {
   src: string;
@@ -12,15 +13,16 @@ export interface PhoneScreenShot {
 
 interface IphoneMeshProps {
   shot: PhoneScreenShot;
-  autoRotate: boolean;
-  spinBoost?: number;
+  pointer: React.RefObject<UnitPointer>;
+  interacting: React.RefObject<boolean>;
+  reducedMotion: boolean;
 }
 
 const BODY = '#1c1c1e';
 const FRAME = '#0a0a0a';
 
-/** Low-poly iPhone: body, inset screen with UV window onto a store-screenshot strip. */
-export function IphoneMesh({ shot, autoRotate, spinBoost = 0 }: IphoneMeshProps) {
+/** Low-poly iPhone: body + screen; tilts toward the pointer instead of spinning. */
+export function IphoneMesh({ shot, pointer, interacting, reducedMotion }: IphoneMeshProps) {
   const group = useRef<THREE.Group>(null);
   const texture = useTexture(shot.src);
 
@@ -37,13 +39,18 @@ export function IphoneMesh({ shot, autoRotate, spinBoost = 0 }: IphoneMeshProps)
     texture.needsUpdate = true;
   }, [shot.frameIndex, shot.frameWidth, shot.frames, texture]);
 
-  useFrame((_, delta) => {
-    if (!group.current || !autoRotate) return;
-    group.current.rotation.y += delta * (0.45 + spinBoost);
+  useFrame(() => {
+    if (!group.current) return;
+    const target = reducedMotion || !interacting.current
+      ? restTilt()
+      : tiltFromPointer(pointer.current ?? { x: 0, y: 0 });
+    group.current.rotation.y = lerp(group.current.rotation.y, target.yaw, 0.12);
+    group.current.rotation.x = lerp(group.current.rotation.x, target.pitch, 0.12);
+    group.current.rotation.z = lerp(group.current.rotation.z, 0, 0.12);
   });
 
   return (
-    <group ref={group} rotation={[0.12, -0.35, 0.04]}>
+    <group ref={group} rotation={[restTilt().pitch, restTilt().yaw, 0]}>
       <mesh castShadow receiveShadow>
         <boxGeometry args={[1.18, 2.42, 0.14]} />
         <meshStandardMaterial color={BODY} roughness={0.35} metalness={0.55} />

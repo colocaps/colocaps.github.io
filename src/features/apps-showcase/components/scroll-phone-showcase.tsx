@@ -2,6 +2,7 @@ import { ContactShadows } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { appIndexFromProgress } from '../lib/scroll-app-index';
+import { pointerToUnit, type UnitPointer } from '../lib/phone-tilt';
 import { IphoneMesh } from './iphone-mesh';
 import type { ShowcaseApp } from './showcase-app';
 
@@ -13,24 +14,27 @@ interface ScrollPhoneShowcaseProps {
 
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 const PANEL_VH = 100;
-/** iPhone 16 logical points — reads as a real handset on most screens. */
-const IPHONE_WIDTH_PX = 393;
-const IPHONE_HEIGHT_PX = 852;
+/** iPhone 16 logical points — large but fully framed in the canvas. */
+const IPHONE_WIDTH_PX = 360;
+const IPHONE_HEIGHT_PX = 780;
 
 function PhoneCanvas({
   shot,
-  autoRotate,
-  spinBoost,
+  pointer,
+  interacting,
+  reducedMotion,
 }: {
   shot: ShowcaseApp['shot'] & { frameIndex: number };
-  autoRotate: boolean;
-  spinBoost: number;
+  pointer: React.RefObject<UnitPointer>;
+  interacting: React.RefObject<boolean>;
+  reducedMotion: boolean;
 }) {
   return (
     <Canvas
       className="h-full w-full"
       dpr={[1, 2]}
-      camera={{ position: [0, 0, 3.55], fov: 28 }}
+      // Far enough that the full 2.42-unit phone fits with margin (was cropped at z≈3.5).
+      camera={{ position: [0, 0, 5.6], fov: 32 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
     >
       <ambientLight intensity={0.75} />
@@ -45,22 +49,24 @@ function PhoneCanvas({
             frameWidth: shot.frameWidth,
             frameIndex: shot.frameIndex,
           }}
-          autoRotate={autoRotate}
-          spinBoost={spinBoost}
+          pointer={pointer}
+          interacting={interacting}
+          reducedMotion={reducedMotion}
         />
-        <ContactShadows position={[0, -1.45, 0]} opacity={0.45} scale={7} blur={2.2} far={3.5} />
+        <ContactShadows position={[0, -1.55, 0]} opacity={0.4} scale={8} blur={2.4} far={4} />
       </Suspense>
     </Canvas>
   );
 }
 
-/** Sticky centered phone: scroll advances one app at a time onto the screen. */
+/** Sticky centered phone: scroll advances apps; pointer tilts the device. */
 export function ScrollPhoneShowcase({ apps, storeLabel, interactionHint }: ScrollPhoneShowcaseProps) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const pointer = useRef<UnitPointer>({ x: 0, y: 0 });
+  const interacting = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [spinBoost, setSpinBoost] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const previousIndex = useRef(0);
 
   const active = apps[activeIndex] ?? apps[0];
 
@@ -76,8 +82,7 @@ export function ScrollPhoneShowcase({ apps, storeLabel, interactionHint }: Scrol
       const rect = track.getBoundingClientRect();
       const range = Math.max(1, rect.height - window.innerHeight);
       const progress = Math.max(0, Math.min(1, -rect.top / range));
-      const next = appIndexFromProgress(progress, apps.length);
-      setActiveIndex(next);
+      setActiveIndex(appIndexFromProgress(progress, apps.length));
     };
 
     update();
@@ -90,13 +95,29 @@ export function ScrollPhoneShowcase({ apps, storeLabel, interactionHint }: Scrol
   }, [apps.length]);
 
   useEffect(() => {
-    if (previousIndex.current === activeIndex) return;
-    previousIndex.current = activeIndex;
-    if (reducedMotion) return;
-    setSpinBoost(1.8);
-    const id = window.setTimeout(() => setSpinBoost(0), 700);
-    return () => window.clearTimeout(id);
-  }, [activeIndex, reducedMotion]);
+    const stage = stageRef.current;
+    if (!stage || reducedMotion) return;
+
+    const move = (event: PointerEvent) => {
+      pointer.current = pointerToUnit({ x: event.clientX, y: event.clientY }, stage.getBoundingClientRect());
+      interacting.current = true;
+    };
+    const end = () => {
+      interacting.current = false;
+      pointer.current = { x: 0, y: 0 };
+    };
+
+    stage.addEventListener('pointermove', move);
+    stage.addEventListener('pointerdown', move);
+    stage.addEventListener('pointerleave', end);
+    stage.addEventListener('pointercancel', end);
+    return () => {
+      stage.removeEventListener('pointermove', move);
+      stage.removeEventListener('pointerdown', move);
+      stage.removeEventListener('pointerleave', end);
+      stage.removeEventListener('pointercancel', end);
+    };
+  }, [reducedMotion]);
 
   const scrollToApp = (index: number) => {
     const track = trackRef.current;
@@ -116,26 +137,30 @@ export function ScrollPhoneShowcase({ apps, storeLabel, interactionHint }: Scrol
       className="relative -mx-6 md:-mx-12"
       style={{ height: `${apps.length * PANEL_VH}vh` }}
     >
-      <div className="sticky top-0 flex h-svh flex-col items-center justify-center px-4 sm:px-6">
-        <div className="relative flex h-full w-full max-w-5xl flex-col items-center justify-center py-4">
+      <div
+        ref={stageRef}
+        className="sticky top-0 flex h-svh flex-col items-center justify-center px-4 sm:px-6"
+      >
+        <div className="relative flex h-full w-full max-w-5xl flex-col items-center justify-center gap-3 py-3">
           <div
-            className="relative shrink-0"
+            className="relative shrink-0 overflow-visible"
             style={{
-              width: `min(92vw, ${IPHONE_WIDTH_PX}px)`,
-              height: `min(78svh, ${IPHONE_HEIGHT_PX}px)`,
+              width: `min(88vw, ${IPHONE_WIDTH_PX}px)`,
+              maxHeight: '64svh',
               aspectRatio: `${IPHONE_WIDTH_PX} / ${IPHONE_HEIGHT_PX}`,
             }}
           >
             <PhoneCanvas
               shot={{ ...active.shot, frameIndex: 0 }}
-              autoRotate={!reducedMotion}
-              spinBoost={spinBoost}
+              pointer={pointer}
+              interacting={interacting}
+              reducedMotion={reducedMotion}
             />
           </div>
 
           <div
             key={active.id}
-            className="mt-3 w-full max-w-md px-2 text-center motion-safe:animate-[fade-rise_420ms_ease-out] sm:mt-4"
+            className="w-full max-w-md px-2 text-center motion-safe:animate-[fade-rise_420ms_ease-out]"
           >
             <p className="mb-1 text-xs font-semibold tracking-[0.18em] text-accent uppercase">
               {activeIndex + 1} / {apps.length}
@@ -154,7 +179,7 @@ export function ScrollPhoneShowcase({ apps, storeLabel, interactionHint }: Scrol
             )}
           </div>
 
-          <ol className="mt-4 flex max-w-xl flex-wrap items-center justify-center gap-2" aria-label={interactionHint}>
+          <ol className="flex max-w-xl flex-wrap items-center justify-center gap-2" aria-label={interactionHint}>
             {apps.map((app, index) => {
               const selected = index === activeIndex;
               return (
@@ -177,7 +202,7 @@ export function ScrollPhoneShowcase({ apps, storeLabel, interactionHint }: Scrol
             })}
           </ol>
 
-          <p className="mt-2 text-center text-xs text-muted">{interactionHint}</p>
+          <p className="text-center text-xs text-muted">{interactionHint}</p>
         </div>
       </div>
     </div>
