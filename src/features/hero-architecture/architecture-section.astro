@@ -8,6 +8,7 @@ import ArchColumn from './components/arch-column.astro';
 import FluxDiagram from './components/flux-diagram.astro';
 import FpaDiagram from './components/fpa-diagram.astro';
 import MultitenantDiagram from './components/multitenant-diagram.astro';
+import WhatsnewDiagram from './components/whatsnew-diagram.astro';
 
 interface Props {
   locale: Locale;
@@ -15,7 +16,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const { architecture } = getDictionary(locale);
-const { flux, multitenant, fpa } = architecture;
+const { flux, multitenant, fpa, whatsnew } = architecture;
 ---
 
 <Section id={SECTION_IDS.architecture} labelledBy="architecture-title" atmosphere="arch">
@@ -26,7 +27,7 @@ const { flux, multitenant, fpa } = architecture;
     </div>
     <p class="max-w-[32ch] leading-relaxed text-muted">{architecture.aside}</p>
   </div>
-  <div class="grid gap-5 lg:grid-cols-3">
+  <div class="grid gap-5 lg:grid-cols-2">
     <ArchColumn index={flux.index} name={flux.name} kicker={flux.kicker} body={flux.body} tone="accent">
       <FluxDiagram diagram={flux.diagram} />
     </ArchColumn>
@@ -35,6 +36,9 @@ const { flux, multitenant, fpa } = architecture;
     </ArchColumn>
     <ArchColumn index={fpa.index} name={fpa.name} kicker={fpa.kicker} body={fpa.body} tone="sky">
       <FpaDiagram diagram={fpa.diagram} />
+    </ArchColumn>
+    <ArchColumn index={whatsnew.index} name={whatsnew.name} kicker={whatsnew.kicker} body={whatsnew.body} tone="ueno">
+      <WhatsnewDiagram diagram={whatsnew.diagram} />
     </ArchColumn>
   </div>
 </Section>

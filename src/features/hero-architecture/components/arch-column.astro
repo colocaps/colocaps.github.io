@@ -1,5 +1,5 @@
 ---
-type Tone = 'accent' | 'amber' | 'sky';
+type Tone = 'accent' | 'amber' | 'sky' | 'ueno';
 
 interface Props {
   index: string;
@@ -15,6 +15,7 @@ const toneClass: Record<Tone, string> = {
   accent: 'border-accent hover:from-accent/10',
   amber: 'border-amber hover:from-amber/10',
   sky: 'border-sky hover:from-sky/10',
+  ueno: 'border-ueno hover:from-ueno/10',
 };
 ---
 

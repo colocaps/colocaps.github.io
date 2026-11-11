@@ -91,6 +91,13 @@ export interface Dictionary {
       body: string;
       diagram: { label: string; steps: [string, string, string, string]; filters: [string, string, string] };
     };
+    whatsnew: {
+      index: string;
+      name: string;
+      kicker: string;
+      body: string;
+      diagram: { label: string; steps: [string, string, string, string]; outputs: [string, string] };
+    };
   };
   apps: {
     eyebrow: string;

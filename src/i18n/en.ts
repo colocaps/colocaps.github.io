@@ -29,7 +29,7 @@ export const en: Dictionary = {
   hero: {
     kicker: 'Mobile Engineer',
     role: 'Apps people open every day.',
-    sub: 'I design and ship mobile products at scale — architecture, fintech, and experiences that feel close.',
+    sub: 'I design and ship mobile products at scale — architecture, fintech, AI in the delivery loop, and experiences that feel close.',
     ctaEmail: 'Email me',
     ctaCv: 'Download CV',
     avatarAlt: 'Portrait of Esteban Farias',
@@ -89,12 +89,13 @@ export const en: Dictionary = {
       eyebrow: 'Lead chapter · itti',
       period: 'Jun 2024 – now',
       title: 'Mobile banking in production.',
-      lede: 'At itti I work on ueno bank and ueno empresas from the Core Mobile team: I coordinate release trains, set how microapps plug into the main app, and automate CI/CD and observability.',
-      tags: ['Flutter', 'Fintech', 'Microapps', 'Codemagic', 'New Relic'],
+      lede:
+        'At itti I work on ueno bank and ueno empresas from the Core Mobile team: release trains, how microapps plug into the main app, CI/CD and observability. We also ship hybrid surfaces — React Native modules inside Flutter via WebViews — and I built WhatsNew, an AI release pipeline that turns every release diff into Slack updates for engineers and users.',
+      tags: ['Flutter', 'React Native · WebViews', 'AI · WhatsNew', 'Microapps', 'Codemagic', 'New Relic'],
       proof: [
         { label: 'Role', value: 'Mobile Developer · technical lead of Core Mobile' },
-        { label: 'Focus', value: 'Release trains, microapps, CI/CD, observability' },
-        { label: 'Stack', value: 'Flutter, Bloc, Riverpod, Clean Architecture' },
+        { label: 'Focus', value: 'Release trains, microapps, hybrid RN, AI tooling' },
+        { label: 'Stack', value: 'Flutter, React Native WebViews, Bloc, Riverpod, Node BFF' },
       ],
       phones: {
         uenoBank: 'Screens of the ueno bank app',
@@ -105,7 +106,7 @@ export const en: Dictionary = {
   architecture: {
     eyebrow: 'Architecture',
     title: 'Architecture that reaches production.',
-    aside: 'Three decisions you can see in the product, not on a theory slide.',
+    aside: 'Four decisions you can see in the product, not on a theory slide.',
     flux: {
       index: '01',
       name: 'Flux',
@@ -143,6 +144,17 @@ export const en: Dictionary = {
         label: 'The FPA measures widgets and screens, checks them against thresholds and sends the data to New Relic, filterable by brand, phone and model.',
         steps: ['Widgets & screens', 'Paint + rebuilds', 'Thresholds', 'New Relic'],
         filters: ['Brand', 'Phone', 'Model'],
+      },
+    },
+    whatsnew: {
+      index: '04',
+      name: 'WhatsNew',
+      kicker: 'AI release notes to Slack',
+      body: 'An AI pipeline I built with the Core team: it gathers release input from every squad, diffs each release against the previous one, and turns that into technical changelogs plus user-facing copy — then posts both to Slack so shipping stays visible without manual write-ups.',
+      diagram: {
+        label: 'WhatsNew collects input from every team, diffs the release against the previous one, writes technical and user-facing notes, and publishes them to Slack.',
+        steps: ['Team inputs', 'Release diffs', 'AI write-up', 'Slack publish'],
+        outputs: ['Technical notes', 'User-facing copy'],
       },
     },
   },
@@ -185,14 +197,14 @@ export const en: Dictionary = {
     eyebrow: 'About',
     title: 'Software that actually helps.',
     paragraphs: [
-      "I'm a Systems Analyst and mobile developer based in Córdoba, Argentina. I work mostly with Flutter and Clean Architecture, and I like designing functional software that helps a company and the people who use it.",
-      "I'm passionate about building apps, and I always give it 100%.",
+      "I'm a Systems Analyst and Senior Mobile / Tech Lead based in Córdoba, Argentina. I work mostly with Flutter and Clean Architecture, and I like designing software that helps a company and the people who use it.",
+      'Lately I have been applying AI to real engineering work — agents, automation, Spec-Driven Development, and tools like WhatsNew — and shipping hybrid mobile surfaces that bring React Native into Flutter through WebViews when the product needs it.',
     ],
     facts: [
       { label: 'Location', value: 'Córdoba, Argentina' },
       { label: 'Education', value: 'Systems Analyst, Instituto Superior Santo Domingo (2017 – 2020)' },
-      { label: 'Languages', value: 'Spanish (native) · English B1' },
-      { label: 'Focus', value: 'Flutter, Clean Architecture, Bloc, Riverpod' },
+      { label: 'Languages', value: 'Spanish (native) · English B2' },
+      { label: 'Focus', value: 'Flutter, hybrid RN, Clean Architecture, AI tooling' },
     ],
   },
   contact: {
