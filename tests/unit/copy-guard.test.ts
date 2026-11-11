@@ -7,7 +7,7 @@ describe.each([
   ['es', es],
   ['en', en],
 ])('architecture copy (%s)', (_locale, dictionary) => {
-  const { flux, multitenant, fpa } = dictionary.architecture;
+  const { flux, multitenant, fpa, whatsnew } = dictionary.architecture;
 
   it('keeps the Flux numbers and transport', () => {
     expect(flux.body).toContain('1M');
@@ -28,6 +28,13 @@ describe.each([
     expect(fpa.name).toBe('Flutter Performance Agent (FPA)');
     expect(fpa.body).toContain('New Relic');
     expect(fpa.body).toMatch(/rebuilds/);
+  });
+
+  it('keeps WhatsNew as an AI release pipeline to Slack', () => {
+    expect(whatsnew.name).toBe('WhatsNew');
+    expect(whatsnew.body).toMatch(/Slack/i);
+    expect(whatsnew.body).toMatch(/diff/i);
+    expect(whatsnew.body).toMatch(/AI|IA/);
   });
 });
 
