@@ -1,6 +1,12 @@
 import type { CareerId, EarlyCareerId } from '../../../i18n/dictionary';
 
-export const EARLY_CAREER_IDS: readonly EarlyCareerId[] = ['je', 'clarika', 'bitlogic', 'houlak-pinapp'];
+export const EARLY_CAREER_IDS: readonly EarlyCareerId[] = [
+  'treviso',
+  'je',
+  'clarika',
+  'bitlogic',
+  'houlak-pinapp',
+];
 
 export const HERO_CAREER_ID = 'itti' satisfies CareerId;
 
