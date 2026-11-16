@@ -38,6 +38,18 @@ describe.each([
   });
 });
 
+describe.each([
+  ['es', es],
+  ['en', en],
+])('career copy (%s)', (_locale, dictionary) => {
+  it('keeps the itti scale and TL claim from the Nov 2026 CV', () => {
+    expect(dictionary.career.itti.lede).toContain('1.5M');
+    expect(dictionary.career.itti.lede).toMatch(/Tech Lead|TL/);
+    expect(dictionary.career.itti.lede).toMatch(/Fastify/);
+    expect(dictionary.career.early.treviso.company).toContain('Treviso');
+  });
+});
+
 describe('public content', () => {
   const everything = JSON.stringify([es, en]);
 

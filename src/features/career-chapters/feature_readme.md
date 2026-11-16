@@ -1,13 +1,13 @@
 # career-chapters
 
 Two sections of the landing: the **timeline glance** (`#timeline`) and the **career chapters**
-(`#career`). Four short, honest chapters (J&E, Clarika, Bitlogic, Houlak / Pinapp) and one long HERO
-chapter for itti / ueno, with real ueno bank and ueno empresas store screenshots.
+(`#career`). Five short chapters (Treviso, J&E, Clarika, Bitlogic, Houlak / Pinapp) and one long
+HERO chapter for itti / ueno, with real ueno bank and ueno empresas store screenshots.
 
 ## Exposed interface
 
-- `timeline-section.astro` — `<TimelineSection locale>`: five nodes that link to `#chapter-<id>`.
-  Horizontal snap scroll below `md`, a five-column rail from `md`.
+- `timeline-section.astro` — `<TimelineSection locale>`: nodes that link to `#chapter-<id>`.
+  Horizontal snap scroll below `md`, a multi-column rail from `md`.
 - `career-section.astro` — `<CareerSection locale>`: the short chapters plus the itti chapter
   (`#chapter-itti`).
 

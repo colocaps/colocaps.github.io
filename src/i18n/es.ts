@@ -2,9 +2,9 @@ import type { Dictionary } from './dictionary';
 
 export const es: Dictionary = {
   meta: {
-    title: 'Esteban Farias — Mobile Engineer',
+    title: 'Esteban Farias — Senior Mobile / Tech Lead',
     description:
-      'Portfolio de Esteban Farias, Mobile Engineer en Córdoba, Argentina: apps mobile en escala, arquitectura y fintech.',
+      'Portfolio de Esteban Farias, Senior Mobile Developer / Tech Lead en Córdoba, Argentina: apps mobile en escala, arquitectura y fintech.',
     ogLocale: 'es_AR',
   },
   chrome: {
@@ -27,9 +27,9 @@ export const es: Dictionary = {
     footer: { linkedin: 'LinkedIn', github: 'GitHub', location: 'Córdoba, Argentina' },
   },
   hero: {
-    kicker: 'Mobile Engineer',
+    kicker: 'Senior Mobile / Tech Lead',
     role: 'Apps que la gente usa todos los días.',
-    sub: 'Diseño y construyo productos mobile en escala — arquitectura, fintech, IA en el delivery y experiencias cercanas.',
+    sub: 'Diseño y construyo productos mobile en escala — arquitectura, fintech, BFFs, IA en el delivery y experiencias cercanas.',
     ctaEmail: 'Escribime',
     ctaCv: 'Descargar CV',
     avatarAlt: 'Retrato de Esteban Farias',
@@ -43,20 +43,29 @@ export const es: Dictionary = {
     eyebrow: 'Trayectoria',
     title: 'Cómo llegué hasta acá.',
     glance: {
+      treviso: { year: '2017', name: 'Treviso', role: 'Android · Flutter' },
       je: { year: '2021', name: 'J&E', role: 'Escritorio y procesos' },
       clarika: { year: '2022', name: 'Clarika', role: 'Flutter · retail' },
       bitlogic: { year: '2022', name: 'Bitlogic', role: 'Flutter · BFF' },
       'houlak-pinapp': { year: '2023', name: 'Houlak / Pinapp', role: 'Flutter · stores' },
-      itti: { year: '2024–hoy', name: 'itti', role: 'Core Mobile · ueno' },
+      itti: { year: '2024–hoy', name: 'itti', role: 'Sr / TL · ueno' },
     },
     early: {
+      treviso: {
+        period: '2017 – 2021',
+        company: 'Metales Treviso SRL',
+        role: 'Software Developer',
+        points: [
+          'Desarrollo mobile nativo en Android (Java) y transición a Flutter, más relevamiento y digitalización de procesos internos.',
+        ],
+        tags: ['Android', 'Java', 'Flutter', 'Procesos'],
+      },
       je: {
         period: '2021 – 2022',
         company: 'J&E Software Solutions',
-        role: 'Desktop Developer',
+        role: 'Software Developer',
         points: [
-          'Análisis de procesos de negocio y desarrollo de escritorio con WinForms y ASP.NET, con trato directo con clientes.',
-          'Participé en una app tipo Uber que no llegó a producción.',
+          'Desarrollo de escritorio y web con WinForms y ASP.NET, más análisis de procesos de negocio con trato directo con clientes.',
         ],
         tags: ['WinForms', 'ASP.NET', 'Análisis de procesos'],
       },
@@ -64,25 +73,29 @@ export const es: Dictionary = {
         period: 'Ene – Jul 2022',
         company: 'Clarika Software + Innovation',
         role: 'Mobile Developer',
-        points: ['App interna para retail, desarrollada en Flutter.'],
-        tags: ['Flutter', 'Bloc', 'Riverpod', 'CI/CD en Azure'],
+        points: [
+          'App interna de retail en Flutter con Clean Architecture, BLoC, Riverpod 2.0, L10n/i18n y pipelines en Azure.',
+        ],
+        tags: ['Flutter', 'Bloc', 'Riverpod', 'Azure Pipelines'],
       },
       bitlogic: {
         period: 'Jul – Nov 2022',
         company: 'Bitlogic SA',
         role: 'Mobile Developer',
-        points: ['Desarrollo mobile en Flutter con BFF e integraciones de API, con CI/CD en GitLab.'],
-        tags: ['Flutter', 'Bloc', 'BFF', 'GitLab CI/CD'],
+        points: [
+          'Apps en Flutter con Clean Architecture y BLoC, integradas a un BFF: contratos de datos, interceptores HTTP, tokens y tests unitarios. GitLab + Jira.',
+        ],
+        tags: ['Flutter', 'Bloc', 'BFF', 'GitLab'],
       },
       'houlak-pinapp': {
         period: 'Dic 2022 – Jun 2024',
         company: 'Houlak / Pinapp',
         role: 'Mobile Developer',
         points: [
-          'En Houlak: una app de farmacia que no llegó a producción y Vizago Pay, pago biométrico para tiendas físicas.',
-          'En Pinapp: apps en Flutter publicadas en App Store y Google Play, con Firebase, push notifications, Analytics y Adjust.',
+          'En Houlak fui el único desarrollador mobile: retail farmacéutico, Vizago Pay (pagos biométricos con SSE en tiempo real) y nativo con Kotlin / Jetpack Compose.',
+          'En Pinapp: e-commerce / quick-commerce (Merkao, JOKR), Add-to-App en apps nativas, OAuth 2.0, Firebase, Adjust y publicación en App Store / Google Play con Azure DevOps.',
         ],
-        tags: ['Flutter', 'Bloc', 'Clean Architecture', 'Firebase'],
+        tags: ['Flutter', 'Add-to-App', 'SSE', 'Firebase', 'Azure DevOps'],
       },
     },
     itti: {
@@ -90,12 +103,12 @@ export const es: Dictionary = {
       period: 'Jun 2024 – hoy',
       title: 'Banca mobile en producción.',
       lede:
-        'En itti trabajo en ueno bank y ueno empresas desde el equipo Core Mobile: release trains, integración de microapps, CI/CD y observabilidad. También llevamos superficies híbridas — módulos React Native dentro de Flutter vía WebViews — y construí WhatsNew, un pipeline con IA que convierte el diff de cada release en updates en Slack para ingeniería y para usuarios.',
-      tags: ['Flutter', 'React Native · WebViews', 'IA · WhatsNew', 'Microapps', 'Codemagic', 'New Relic'],
+        'En itti soy Senior Mobile / Tech Lead en ueno: lideré el squad de Empresas (3 developers) y formo parte de Core Mobile. Coordinamos release trains y estándares para microapps en una superapp multitenant (+1.5M usuarios en empresas), con 4 BFFs en Fastify, seguridad (Facetec, Incognia), cobertura ≥80% y tooling como Flux, Flutter Performance Agent (FPA) y WhatsNew.',
+      tags: ['Flutter', 'Fastify BFF', 'Microapps', 'Codemagic', 'New Relic', 'IA · WhatsNew'],
       proof: [
-        { label: 'Rol', value: 'Mobile Developer · liderazgo técnico de Core Mobile' },
-        { label: 'Foco', value: 'Release trains, microapps, RN híbrido, tooling con IA' },
-        { label: 'Stack', value: 'Flutter, React Native WebViews, Bloc, Riverpod, BFF Node' },
+        { label: 'Rol', value: 'Sr Mobile Developer / TL · Empresas + Core' },
+        { label: 'Escala', value: '+1.5M usuarios · release trains · microapps' },
+        { label: 'Stack', value: 'Flutter, BLoC, Riverpod, Fastify, Codemagic' },
       ],
       phones: {
         uenoBank: 'Pantallas de la app ueno bank',
@@ -198,13 +211,13 @@ export const es: Dictionary = {
     title: 'Software que sirve de verdad.',
     paragraphs: [
       'Soy Analista de Sistemas y Senior Mobile / Tech Lead en Córdoba, Argentina. Trabajo sobre todo con Flutter y Clean Architecture, y me gusta diseñar software que le sirva a una empresa y a quienes lo usan.',
-      'En este último tiempo apliqué IA al trabajo real de ingeniería — agentes, automatización, Spec-Driven Development y herramientas como WhatsNew — y llevé superficies híbridas que meten React Native dentro de Flutter vía WebViews cuando el producto lo necesita.',
+      'Sigo formándome: React, IA aplicada a ingeniería, AWS fundamentals y el oficio de siempre (Clean Architecture, testing, delivery). En el día a día también sumé BFFs en Fastify, Add-to-App y tooling como WhatsNew.',
     ],
     facts: [
       { label: 'Ubicación', value: 'Córdoba, Argentina' },
       { label: 'Formación', value: 'Analista de Sistemas, Instituto Superior Santo Domingo (2017 – 2020)' },
       { label: 'Idiomas', value: 'Español nativo · English B2' },
-      { label: 'Foco', value: 'Flutter, RN híbrido, Clean Architecture, tooling con IA' },
+      { label: 'Foco', value: 'Flutter, Fastify BFF, Clean Architecture, IA' },
     ],
   },
   contact: {

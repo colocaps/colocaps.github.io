@@ -4,7 +4,7 @@ import type { SectionId } from '../shared/site/site-config';
 import { en } from './en';
 import { es } from './es';
 
-export type CareerId = 'je' | 'clarika' | 'bitlogic' | 'houlak-pinapp' | 'itti';
+export type CareerId = 'treviso' | 'je' | 'clarika' | 'bitlogic' | 'houlak-pinapp' | 'itti';
 export type EarlyCareerId = Exclude<CareerId, 'itti'>;
 
 interface Labelled {
