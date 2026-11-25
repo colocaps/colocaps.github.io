@@ -28,8 +28,14 @@ export const en: Dictionary = {
   },
   hero: {
     kicker: 'Senior Mobile / Tech Lead',
-    role: 'Apps people open every day.',
-    sub: 'I design and ship mobile products at scale — architecture, fintech, BFFs, AI in the delivery loop, and experiences that feel close.',
+    philosophyTitle: 'My philosophy as an engineer',
+    philosophy: [
+      "Don't hire me for being a Flutter expert. Flutter can be learned, like any other technology. So can the ones that don't exist yet, and that we will almost certainly have to take on in the future.",
+      'Technologies change, evolve, and disappear. What actually makes the difference is not how well we know a particular tool, but how we think, analyze, and solve problems.',
+      'What sets me apart is critical thinking, technical judgment, and the ability to turn complex problems into well-designed solutions. Knowing when to simplify and when to abstract, when a quick solution is genuinely efficient and when it becomes technical debt tomorrow. Applying engineering principles, architecture, and design patterns with a purpose — not to follow trends or impose structure that is not needed.',
+      'I like to get involved at the origin of the problem, weigh alternatives, propose solutions, question decisions when it is warranted, and own the outcome. I enjoy building solutions from scratch and taking ownership of the work end to end, rather than only implementing requirements.',
+      "It is not only about writing code that works today. It is about decisions that let us build software that can evolve, be maintained, and keep delivering value tomorrow.",
+    ],
     ctaEmail: 'Email me',
     ctaCv: 'Download CV',
     avatarAlt: 'Portrait of Esteban Farias',

@@ -19,19 +19,25 @@ const portrait = await getImage({ src: avatar, width: 768, height: 768, format: 
 ---
 
 <Section id="hero" labelledBy="hero-title" atmosphere="hero" class="lg:min-h-[calc(100svh-var(--spacing-nav))]">
-  <div class="grid items-center gap-12 lg:min-h-[calc(100svh-var(--spacing-nav)-12rem)] lg:grid-cols-[1.05fr_0.95fr]">
+  <div class="grid items-start gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(16rem,0.6fr)] lg:gap-16">
     <div>
       <div class="mb-6"><Eyebrow>{hero.kicker}</Eyebrow></div>
       <h1 id="hero-title" class="mb-6 max-w-[10ch] font-display text-hero font-extrabold">{siteConfig.name}</h1>
-      <p class="mb-4 text-2xl font-semibold">{hero.role}</p>
-      <p class="mb-10 max-w-[34ch] text-lg leading-relaxed text-muted">{hero.sub}</p>
+      <p class="mb-6 font-display text-2xl font-semibold tracking-tight">{hero.philosophyTitle}</p>
+      <div class="mb-10 max-w-[62ch] space-y-4 text-base leading-relaxed sm:text-lg">
+        {
+          hero.philosophy.map((paragraph, index) => (
+            <p class={index === 0 ? 'font-medium text-mist' : 'text-muted'}>{paragraph}</p>
+          ))
+        }
+      </div>
       <div class="flex flex-wrap items-center gap-3">
         <Button href={mailtoHref}>{hero.ctaEmail}</Button>
         <Button href={cvHref[locale]} variant="ghost" download>{hero.ctaCv}</Button>
       </div>
     </div>
 
-    <div data-avatar-stage class="relative flex items-center justify-center py-8 lg:h-full">
+    <div data-avatar-stage class="relative flex items-center justify-center py-8 lg:sticky lg:top-nav lg:self-start">
       <div aria-hidden="true" class="absolute size-80 animate-glow rounded-full glow-accent blur-sm"></div>
       <div class="relative">
         <Avatar3D client:load textureUrl={portrait.src} alt={hero.avatarAlt} />
