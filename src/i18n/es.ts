@@ -28,8 +28,14 @@ export const es: Dictionary = {
   },
   hero: {
     kicker: 'Senior Mobile / Tech Lead',
-    role: 'Apps que la gente usa todos los días.',
-    sub: 'Diseño y construyo productos mobile en escala — arquitectura, fintech, BFFs, IA en el delivery y experiencias cercanas.',
+    philosophyTitle: 'Mi filosofía como ingeniero',
+    philosophy: [
+      'No me contrates por ser experto en Flutter. Flutter se puede aprender, como cualquier otra tecnología. También se pueden aprender aquellas que todavía no existen y que seguramente tendremos que incorporar en el futuro.',
+      'Las tecnologías cambian, evolucionan y desaparecen. Lo que realmente marca la diferencia no es cuánto conocemos una herramienta en particular, sino cómo pensamos, analizamos y resolvemos problemas.',
+      'Mi diferencial está en el pensamiento crítico, el criterio técnico y la capacidad de transformar problemas complejos en soluciones bien diseñadas. En entender cuándo simplificar y cuándo abstraer, cuándo una solución rápida es realmente eficiente y cuándo puede convertirse en deuda técnica mañana. En aplicar principios de ingeniería, arquitectura y patrones de diseño con un propósito, no por seguir tendencias o imponer estructuras innecesarias.',
+      'Me gusta involucrarme desde el origen del problema, analizar alternativas, proponer soluciones, cuestionar decisiones cuando es necesario y hacerme responsable de los resultados. Disfruto construir soluciones desde cero y asumir ownership del desarrollo de punta a punta, sin limitarme simplemente a implementar requerimientos.',
+      'No se trata solamente de escribir código que funcione hoy, sino de tomar decisiones que permitan construir software que pueda evolucionar, mantenerse y seguir aportando valor mañana.',
+    ],
     ctaEmail: 'Escribime',
     ctaCv: 'Descargar CV',
     avatarAlt: 'Retrato de Esteban Farias',

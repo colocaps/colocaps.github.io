@@ -44,8 +44,8 @@ export interface Dictionary {
   };
   hero: {
     kicker: string;
-    role: string;
-    sub: string;
+    philosophyTitle: string;
+    philosophy: string[];
     ctaEmail: string;
     ctaCv: string;
     avatarAlt: string;

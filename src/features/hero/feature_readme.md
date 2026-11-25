@@ -1,6 +1,6 @@
 # hero
 
-First screen of each locale landing: kicker, brand (`h1`), one-line role, sub, two CTAs
+First screen of each locale landing: kicker, brand (`h1`), philosophy title and paragraphs, two CTAs
 (mailto and CV download) and the interactive 3D portrait.
 
 ## Exposed interface

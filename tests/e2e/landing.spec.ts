@@ -13,7 +13,7 @@ test.describe('landing @smoke', () => {
 
       await expect(page.locator('html')).toHaveAttribute('lang', locale);
       await expect(page.getByRole('heading', { level: 1, name: 'Esteban Farias' })).toBeVisible();
-      await expect(page.getByText(locale === 'es' ? 'Apps que la gente usa todos los días.' : 'Apps people open every day.')).toBeVisible();
+      await expect(page.getByText(locale === 'es' ? 'Mi filosofía como ingeniero' : 'My philosophy as an engineer')).toBeVisible();
       for (const id of SECTION_IDS) await expect(page.locator(`#${id}`)).toHaveCount(1);
       expect(errors).toEqual([]);
     });
